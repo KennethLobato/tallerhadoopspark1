@@ -151,9 +151,23 @@ Follow up the examples guide of Spark and take a look to the spark-submit comman
 - http://spark.apache.org/docs/1.6.2/quick-start.html
 - http://spark.apache.org/docs/latest/submitting-applications.html
 
-To install sbt:
+NOTES:
+- To install sbt:
 ```Bash
 vagrant@ubuntu1:/usr/local/spark$ wget https://dl.bintray.com/sbt/debian/sbt-0.13.12.deb
 vagrant@ubuntu1:/usr/local/spark$ sudo dpkg -i sbt-0.13.12.deb
 vagrant@ubuntu1:/usr/local/spark$ sudo apt-get install scala
+```
+
+ZEPPELIN
+Launch Zeppelin
+
+- Edit file zeppelin-site.xml.template and change port 8080 to 9090
+
+```Bash
+vagrant@ubuntu1:/usr/local/zeppelin$ conf/zeppelin-site.xml.template conf/zeppeling-site.xml
+vagrant@ubuntu1:/usr/local/zeppelin$ ./bin/zeppelin-daemon start
+Zeppelin is running                                        [  OK  ]
+vagrant@ubuntu1:/usr/local/zeppelin$ ./bin/zeppelin-daemon status
+Zeppelin is running                                        [  OK  ]
 ```

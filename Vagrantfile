@@ -16,6 +16,16 @@ Vagrant.configure(2) do |config|
       chmod 600 /home/vagrant/.ssh/id_rsa
       cp /vagrant/shared/ubuntu1.pub /home/vagrant/.ssh/id_rsa.pub
       cat /vagrant/shared/ubuntu1.pub >> /home/vagrant/.ssh/authorized_keys
+
+      if [ -f /vagrant/zeppelin-0.6.0-bin-all.tgz ]
+      then
+        wget http://archive.apache.org/dist/zeppelin/zeppelin-0.6.0/zeppelin-0.6.0-bin-all.tgz -P /vagrant/
+        #wget http://apache.rediris.es/zeppelin/zeppelin-0.6.2/zeppelin-0.6.2-bin-all.tgz -P /vagrant/
+      fi
+      sudo tar -zxvf /vagrant/zeppelin-0.6.0-bin-all.tgz -C /usr/local/
+      sudo ln -sf /usr/local/zeppelin-0.6.0-bin-all/ /usr/local/zeppelin
+      sudo chown -R vagrant /usr/local/zeppelin
+      sudo chown -R vagrant /usr/local/zeppelin-0.6.0-bin-all/
     SHELL
   end
 
@@ -83,6 +93,7 @@ Vagrant.configure(2) do |config|
     #Setup bashrc
     echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" >> /home/vagrant/.bashrc
     echo "export HADOOP_HOME=/usr/local/hadoop" >> /home/vagrant/.bashrc
+    echo "export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop"
     echo "export SPARK_HOME=/usr/local/spark" >> /home/vagrant/.bashrc
     echo "export PATH=$PATH:/usr/local/hadoop/bin:/usr/local/spark/bin" >> /home/vagrant/.bashrc
 
