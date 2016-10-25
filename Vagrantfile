@@ -17,15 +17,14 @@ Vagrant.configure(2) do |config|
       cp /vagrant/shared/ubuntu1.pub /home/vagrant/.ssh/id_rsa.pub
       cat /vagrant/shared/ubuntu1.pub >> /home/vagrant/.ssh/authorized_keys
 
-      if [ -f /vagrant/zeppelin-0.6.0-bin-all.tgz ]
+      if [ -f /vagrant/zeppelin-0.6.2-bin-all.tgz ]
       then
-        wget http://archive.apache.org/dist/zeppelin/zeppelin-0.6.0/zeppelin-0.6.0-bin-all.tgz -P /vagrant/
-        #wget http://apache.rediris.es/zeppelin/zeppelin-0.6.2/zeppelin-0.6.2-bin-all.tgz -P /vagrant/
+        wget http://apache.rediris.es/zeppelin/zeppelin-0.6.2/zeppelin-0.6.2-bin-all.tgz -P /vagrant/
       fi
-      sudo tar -zxvf /vagrant/zeppelin-0.6.0-bin-all.tgz -C /usr/local/
-      sudo ln -sf /usr/local/zeppelin-0.6.0-bin-all/ /usr/local/zeppelin
+      sudo tar -zxvf /vagrant/zeppelin-0.6.2-bin-all.tgz -C /usr/local/
+      sudo ln -sf /usr/local/zeppelin-0.6.2-bin-all/ /usr/local/zeppelin
       sudo chown -R vagrant /usr/local/zeppelin
-      sudo chown -R vagrant /usr/local/zeppelin-0.6.0-bin-all/
+      sudo chown -R vagrant /usr/local/zeppelin-0.6.2-bin-all/
     SHELL
   end
 
