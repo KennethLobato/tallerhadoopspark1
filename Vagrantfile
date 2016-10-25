@@ -55,6 +55,36 @@ Vagrant.configure(2) do |config|
     #Install Java8
     sudo apt-get install -y oracle-java8-installer
 
+    #Download Hadoop 2.7.3 Binary
+    if [ ! -f "/vagrant/hadoop-2.7.3.tar.gz" ]
+    then
+      echo "Downloading Hadoop 2.7.3 Binaries"
+    sudo wget http://ftp.cixug.es/apache/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz -P /vagrant/
+    fi
+    sudo tar -zxvf /vagrant/hadoop-2.7.3.tar.gz -C /usr/local/
+    sudo ln -sf /usr/local/hadoop-2.7.3/ /usr/local/hadoop
+    sudo chown -R vagrant /usr/local/hadoop/
+
+    sudo tar -zxvf /vagrant/shared/hadoop-files.tar.gz -C /usr/local/hadoop/etc/
+    sudo cp /usr/local/hadoop/etc/hadoop-files/* /usr/local/hadoop/etc/hadoop/
+    sudo rm -rf /usr/local/hadoop/etc/hadoop-files
+
+    #Download Spark 1.6.2
+    if [ ! -f "/vagrant/spark-1.6.2-bin-hadoop2.6.tgz" ]
+    then
+      echo "Downloading Spark 1.6.2 Binaries"
+      sudo wget http://d3kbcqa49mib13.cloudfront.net/spark-1.6.2-bin-hadoop2.6.tgz -P /vagrant/
+    fi
+    sudo tar -zxvf /vagrant/spark-1.6.2-bin-hadoop2.6.tgz -C /usr/local/
+    sudo ln -sf /usr/local/spark-1.6.2-bin-hadoop2.6/ /usr/local/spark
+    sudo chown -R vagrant /usr/local/spark/
+    sudo chown -R vagrant /usr/local/spark-1.6.2-bin-hadoop2.6
+
+    #Setup bashrc
+    echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" >> /home/vagrant/.bashrc
+    echo "export HADOOP_HOME=/usr/local/hadoop" >> /home/vagrant/.bashrc
+    echo "export SPARK_HOME=/usr/local/spark" >> /home/vagrant/.bashrc
+    echo "export PATH=$PATH:/usr/local/hadoop/bin:/usr/local/spark/bin" >> /home/vagrant/.bashrc
 
     #Configure hostname resolution
     sudo echo "10.0.0.10 ubuntu1.tallerhadoop1.org ubuntu1" >> /etc/hosts
@@ -63,19 +93,5 @@ Vagrant.configure(2) do |config|
     sudo cp hosts /etc/hosts
     rm hosts
 
-    #Download Hadoop 2.7.3 Binary
-    wget http://ftp.cixug.es/apache/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz -P /home/vagrant/
-    echo "Donwloaded Hadoop 2.7.3 binaries"
-    sudo tar -zxvf /home/vagrant/hadoop-2.7.3.tar.gz -C /usr/local/
-    sudo ln -sf /usr/local/hadoop-2.7.3/ /usr/local/hadoop
-    sudo chown -R vagrant /usr/local/hadoop/
-    sudo tar -zxvf /vagrant/shared/hadoop-files.tar.gz -C /usr/local/hadoop/etc/
-    sudo cp /usr/local/hadoop/etc/hadoop-files/* /usr/local/hadoop/etc/hadoop/
-    sudo rm -rf /usr/local/hadoop/etc/hadoop-files
-
-    #Setup bashrc
-    echo "export JAVA_HOME=/usr/lib/jvm/java-8-oracle/" >> /home/vagrant/.bashrc
-    echo "export HADOOP_HOME=/usr/local/hadoop" >> /home/vagrant/.bashrc
-    echo "export PATH=$PATH:/usr/local/hadoop/bin" >> /home/vagrant/.bashrc
   SHELL
 end
