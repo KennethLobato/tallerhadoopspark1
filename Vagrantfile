@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
 
       if [ -f /vagrant/zeppelin-0.6.2-bin-all.tgz ]
       then
-        wget http://apache.rediris.es/zeppelin/zeppelin-0.6.2/zeppelin-0.6.2-bin-all.tgz -P /vagrant/
+        sudo wget http://apache.rediris.es/zeppelin/zeppelin-0.6.2/zeppelin-0.6.2-bin-all.tgz -P /vagrant/
       fi
       sudo tar -zxvf /vagrant/zeppelin-0.6.2-bin-all.tgz -C /usr/local/
       sudo ln -sf /usr/local/zeppelin-0.6.2-bin-all/ /usr/local/zeppelin
