@@ -106,7 +106,7 @@ vagrant@ubuntu1:/usr/local/spark$ ./sbin/start-slave.sh spark://ubuntu1:7077
 ```
 
 ```Bash
-vagrant@ubuntu1:/usr/local/hadoop$ ./sbin/start-slave.sh spark://ubuntu1:7077
+vagrant@ubuntu2:/usr/local/spark$ ./sbin/start-slave.sh spark://ubuntu1:7077
 ```
 
 Make a test that spark is properly installed (this should launch the shell REPL):
