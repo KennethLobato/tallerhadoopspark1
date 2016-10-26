@@ -55,7 +55,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell", inline: <<-SHELL
     echo "Common Configuration"
-    #Add Java 8 repository
+    #Add Java repository
     sudo apt-add-repository -y ppa:webupd8team/java
 
     #Update machine
