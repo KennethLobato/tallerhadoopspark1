@@ -1,15 +1,23 @@
 # tallerhadoopspark1
 ***
 
+## Index:
 1. [Preparing the environment](#preparing)
 ---
-Download the code from this repository:
+
+## Preparing the environment <a name="preparing"></a>
+- Download the code from this repository:
 ```Bash
 git clone https://github.com/KennethLobato/tallerhadoopspark1.git
 ```
 
-## Preparing the environment <a name="preparing"></a>
-Launch vagrant:
+- This Vagrantfile should create two machines, *ubuntu1* and *ubuntu2*. Edit the Vagrantfile to specify the amount of memory that you want in each VM.
+
+- Launch vagrant. This step should create the machines, if you want to speed up the process you can download the following links and leave the *tar* or *tgz* in the same folder where you downloaded this repo:
+    * http://d3kbcqa49mib13.cloudfront.net/spark-1.6.2-bin-hadoop2.6.tgz
+    * http://ftp.cixug.es/apache/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz
+    * http://apache.rediris.es/zeppelin/zeppelin-0.6.2/zeppelin-0.6.2-bin-all.tgz
+    
 ```Bash
 vagrant up
 ```
