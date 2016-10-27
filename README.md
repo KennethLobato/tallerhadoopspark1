@@ -270,6 +270,9 @@ Steps to change Spark launching mode depending on the configuration that you hav
   + Local mode (Default)
   + Standalone mode: *spark://ubuntu1.tallerhadoop1.org:7077*
   + Yarn mode: *yarn-client*
-- Save the changes (this will reload the interpreter)
+- Save the changes (scroll down if you don't see the button). This will reload the interpreter
+- Go to main page and launch the Notebook with you want to work:
+
+![Image Of Zeppelin Notebook](./figures/zeppelinnotebook.png)
 
 If you need more information about Zeppelin Notebook, you can visit the following link: https://zeppelin.apache.org/docs/0.6.2/
