@@ -4,9 +4,17 @@
 ## Index:
 1. [Preparing the environment](#preparing)
 2. [Launching Hadoop HDFS](#HDFS)
+3. [Running YARN Resource Manager.](#YARN)
+4. [Launching Spark.](#SPARK)
+  4.1 [Launch Spark in Local Mode.](#SPARKLOCAL)
+  4.2 [Launch Spark in Standalone Cluster Mode.](#SPARKSTANDALONE)
+  4.3 [Launch Spark Shell in YARN.](#SPARKYARN)
+5. [Optional - Change the verbosity of Spark.](#VERBOSITY)
+
+
 ---
 
-## Preparing the environment <a name="preparing"></a>
+### 1. Preparing the environment <a name="preparing"></a>
 - Download the code from this repository:
 ```Bash
 git clone https://github.com/KennethLobato/tallerhadoopspark1.git
@@ -31,7 +39,7 @@ vagrant ssh ubuntu1
 vagrant ssh ubuntu2
 ```
 
-Verify that the /etc/hosts has the following information (otherwise edit it with vim or nano):
+Verify that the /etc/hosts has the following information (otherwise edit it with *vim* or *nano*):
 ```Bash
 vagrant@ubuntu1:~$ cat /etc/hosts
 127.0.0.1 localhost
@@ -40,7 +48,7 @@ vagrant@ubuntu1:~$ cat /etc/hosts
 10.0.0.11 ubuntu2.tallerhadoop1.org ubuntu2
 ```
 
-## Launching Hadoop HDFS. <a name="HDFS"></a>
+### 2. Launching Hadoop HDFS. <a name="HDFS"></a>
 Connect to the following machines with SSH to accept their fingerprint:
 ```Bash
 vagrant@ubuntu1:~$ ssh ubuntu1
@@ -85,8 +93,16 @@ Found 1 items
 drwxr-xr-x   - vagrant supergroup          0 2016-10-12 17:02 /user/vagrant
 vagrant@ubuntu1:/usr/local/hadoop$ hdfs dfs -ls /user/vagrant/
 ```
+Optionally, you can include the names of the machines in */etc/hosts* (Mac or Linux) or in *C:/Windows/System32/drivers/etc/hosts* (Windows):
+```Bash
+10.0.0.10 ubuntu1.tallerhadoop1.org ubuntu1
+10.0.0.11 ubuntu2.tallerhadoop1.org ubuntu2
+```
+Verify that is properly running with a browser opening any of these links:
+- http://ubuntu1:50070
+- http://10.0.0.10:50070
 
-# Running YARN Resource Manager. <a name="YARN"></a>
+### 3. Running YARN Resource Manager. <a name="YARN"></a>
 Start YARN Resource Manager:
 ```Bash
 vagrant@ubuntu1:/usr/local/hadoop$ ./sbin/start-yarn.sh
@@ -111,10 +127,38 @@ vagrant@ubuntu2:~$ jps
 3833 Jps
 3550 DataNode
 ```
+Verify that is properly running with a browser opening any of these links:
+- http://ubuntu1:8088
+- http://10.0.0.10:8088
 
-Launch Spark in Standalone cluster mode:
+### 4. Launching Spark. <a name="SPARK"></a>
+
+
+#### 4.1 Launch Spark Shell in Local Mode. <a name="SPARKLOCAL"></a>
+
+To launch Spark in local mode you don't need the Standalone Cluster or YARN to be running. If you have assigned a small amount of RAM memory, this should be your choice. In any case, it's better to store the data in HDFS, which can be accessed with *hdfs://ubuntu1:9000/user/vagrant/fileOrFolderName*
+
 ```Bash
-vagrant@ubuntu1:/usr/local/hadoop$ cd /usr/local/spark/
+vagrant@ubuntu1:~$ cd /usr/local/spark/
+vagrant@ubuntu1:/usr/local/spark$ ./bin/start-master.sh --master local[*]
+(...)
+Welcome to
+      ____              __
+     / __/__  ___ _____/ /__
+    _\ \/ _ \/ _ `/ __/  '_/
+   /___/ .__/\_,_/_/ /_/\_\   version 1.6.2
+      /_/
+
+Using Scala version 2.10.5 (Java HotSpot(TM) 64-Bit Server VM, Java 1.7.0_80)
+(...)
+scala> sc
+res0: org.apache.spark.SparkContext = org.apache.spark.SparkContext@2b3a101e
+```
+
+#### 4.2 Launch Spark in Standalone Cluster Mode. <a name="SPARKSTANDALONE"></a>
+Using the Standalone Cluster Mode you don't YARN to be running. To launch Spark Shell in Standalone cluster mode:
+```Bash
+vagrant@ubuntu1:~$ cd /usr/local/spark/
 vagrant@ubuntu1:/usr/local/spark$ ./sbin/start-master.sh
 vagrant@ubuntu1:/usr/local/spark$ ./sbin/start-slave.sh spark://ubuntu1:7077
 ```
@@ -129,16 +173,21 @@ vagrant@ubuntu1:/usr/local/spark$ ./bin/spark-shell --master spark://ubuntu1:707
 (...)
 scala> sc
 res1: org.apache.spark.SparkContext = org.apache.spark.SparkContext@4045fd1f
+```
+Open in a browser any of the following addresses to check the Standalone Cluster:
+- http://ubuntu1:8080
+- http://10.0.0.10:8080
 
-scala> sqlContext
-res2: org.apache.spark.sql.SQLContext = org.apache.spark.sql.hive.HiveContext@738a977d
+#### 4.3 Launch Spark Shell in YARN. <a name="SPARKYARN"></a>
+To launch Spark Shell over YARN you don't need to run Spark Cluster Standalone. *Spark-Shell* command will review the YARN configuration by means of the exported environment var *HADOOP_CONF_DIR*, which is included in the */home/vagrant/.bashrc*. Execute the following commands:
+```Bash
+vagrant@ubuntu1:/usr/local/spark$ ./bin/spark-shell --master yarn-client
+(...)
+scala> sc
+res1: org.apache.spark.SparkContext = org.apache.spark.SparkContext@4045fd1f
 ```
 
-Open in an explorer the following addresses:
-- ubuntu1:50070 (HDFS)
-- ubuntu1:8088 (YARN)
-- ubuntu1:8080 (Spark Standalone Cluster)
-
+### 5 Optional - Change the verbosity of Spark. <a name="VERBOSITY"></a>
 We can set up the level of verbosity with the following commands:
 
 ```Bash
@@ -154,24 +203,22 @@ Por:
 ```Bash
 log4j.rootCategory=ERROR, console
 ```
-
-Checking the spark Standalone cluster is running property with some examples:
-```Bash
-vagrant@ubuntu1:/usr/local/spark$ ./bin/spark-submit examples/src/main/python/pi.py 10
-Pi is roughly 3.140388
-```
-
+### 6. Running Examples. <a name="EXAMPLES"></a>
 Follow up the examples guide of Spark and take a look to the spark-submit command:
 - http://spark.apache.org/docs/1.6.2/quick-start.html
 - http://spark.apache.org/docs/latest/submitting-applications.html
 
-NOTES:
+Before you continue with the examples, you need to pay attention to the following notes:
 - To install sbt:
 ```Bash
 vagrant@ubuntu1:/usr/local/spark$ wget https://dl.bintray.com/sbt/debian/sbt-0.13.12.deb
 vagrant@ubuntu1:/usr/local/spark$ sudo dpkg -i sbt-0.13.12.deb
 vagrant@ubuntu1:/usr/local/spark$ sudo apt-get install scala
 ```
+- In the SimpleApp example, no matter how you launch, change the filepath according to:
+* Local Mode: *hdfs://ubuntu1:9000/user/vagrant/README.md*
+* Standalone Cluster Mode: *hdfs://ubuntu1:9000/user/vagrant/README.md*
+* YARN Mode: */user/vagrant/README.md*
 
 ZEPPELIN
 Launch Zeppelin
