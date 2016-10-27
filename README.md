@@ -3,6 +3,7 @@
 
 ## Index:
 1. [Preparing the environment](#preparing)
+2. [Launching Hadoop HDFS](#HDFS)
 ---
 
 ## Preparing the environment <a name="preparing"></a>
@@ -13,11 +14,11 @@ git clone https://github.com/KennethLobato/tallerhadoopspark1.git
 
 - This Vagrantfile should create two machines, *ubuntu1* and *ubuntu2*. Edit the Vagrantfile to specify the amount of memory that you want in each VM.
 
-- Launch vagrant. This step should create the machines, if you want to speed up the process you can download the following links and leave the *tar* or *tgz* in the same folder where you downloaded this repo:
+- Launch vagrant. This step should create the machines, if you want to speed up the process you can download the following links and leave the *tar* or *tgz* in the same folder where you downloaded this repo, otherwise the provisioning process in the Vagrantfile will do it:
     * http://d3kbcqa49mib13.cloudfront.net/spark-1.6.2-bin-hadoop2.6.tgz
     * http://ftp.cixug.es/apache/hadoop/common/hadoop-2.7.3/hadoop-2.7.3.tar.gz
     * http://apache.rediris.es/zeppelin/zeppelin-0.6.2/zeppelin-0.6.2-bin-all.tgz
-    
+
 ```Bash
 vagrant up
 ```
@@ -39,6 +40,7 @@ vagrant@ubuntu1:~$ cat /etc/hosts
 10.0.0.11 ubuntu2.tallerhadoop1.org ubuntu2
 ```
 
+## Launching Hadoop HDFS. <a name="HDFS"></a>
 Connect to the following machines with SSH to accept their fingerprint:
 ```Bash
 vagrant@ubuntu1:~$ ssh ubuntu1
@@ -84,6 +86,7 @@ drwxr-xr-x   - vagrant supergroup          0 2016-10-12 17:02 /user/vagrant
 vagrant@ubuntu1:/usr/local/hadoop$ hdfs dfs -ls /user/vagrant/
 ```
 
+# Running YARN Resource Manager. <a name="YARN"></a>
 Start YARN Resource Manager:
 ```Bash
 vagrant@ubuntu1:/usr/local/hadoop$ ./sbin/start-yarn.sh
