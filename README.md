@@ -6,11 +6,12 @@
 2. [Launching Hadoop HDFS](#HDFS)
 3. [Running YARN Resource Manager.](#YARN)
 4. [Launching Spark.](#SPARK)
-  4.1 [Launch Spark in Local Mode.](#SPARKLOCAL)
-  4.2 [Launch Spark in Standalone Cluster Mode.](#SPARKSTANDALONE)
-  4.3 [Launch Spark Shell in YARN.](#SPARKYARN)
+  4.1. [Launch Spark in Local Mode.](#SPARKLOCAL)
+  4.2. [Launch Spark in Standalone Cluster Mode.](#SPARKSTANDALONE)
+  4.3. [Launch Spark Shell in YARN.](#SPARKYARN)
 5. [Optional - Change the verbosity of Spark.](#VERBOSITY)
-
+6. [Running Examples.](#EXAMPLES)
+7. [Zeppelin Notebooks.](#ZEPPELIN)
 
 ---
 
@@ -216,19 +217,59 @@ vagrant@ubuntu1:/usr/local/spark$ sudo dpkg -i sbt-0.13.12.deb
 vagrant@ubuntu1:/usr/local/spark$ sudo apt-get install scala
 ```
 - In the SimpleApp example, no matter how you launch, change the filepath according to:
-* Local Mode: *hdfs://ubuntu1:9000/user/vagrant/README.md*
-* Standalone Cluster Mode: *hdfs://ubuntu1:9000/user/vagrant/README.md*
-* YARN Mode: */user/vagrant/README.md*
+  * Local Mode: *hdfs://ubuntu1:9000/user/vagrant/README.md*
+  * Standalone Cluster Mode: *hdfs://ubuntu1:9000/user/vagrant/README.md*
+  * YARN Mode: */user/vagrant/README.md*
 
-ZEPPELIN
-Launch Zeppelin
+### 7. Zeppelin Notebooks. <a name="ZEPPELIN"></a>
+If you are working with the Spark Standalone Cluster, Zeppelin and Spark Cluster UI will collision at the same port, to change default Zeppelin port to the following (otherwise you can continue):
 
-- Edit file zeppelin-site.xml.template and change port 8080 to 9090
-
+- Edit file */usr/local/zeppelin/conf/zeppelin-site.xml.template* and change port 8080 to 9090:
 ```Bash
-vagrant@ubuntu1:/usr/local/zeppelin$ conf/zeppelin-site.xml.template conf/zeppeling-site.xml
+(...)
+<property>
+  <name>zeppelin.server.port</name>
+  <value>8080</value>
+  <description>Server port.</description>
+</property>
+(...)
+```
+
+- Move (rename) or copy the file:
+```Bash
+vagrant@ubuntu1:/usr/local/zeppelin$ cp conf/zeppelin-site.xml.template conf/zeppeling-site.xml
+```
+To run Zeppelin Notebook:
+```Bash
 vagrant@ubuntu1:/usr/local/zeppelin$ ./bin/zeppelin-daemon start
 Zeppelin is running                                        [  OK  ]
 vagrant@ubuntu1:/usr/local/zeppelin$ ./bin/zeppelin-daemon status
 Zeppelin is running                                        [  OK  ]
 ```
+
+Zeppelin will be ready at the following addresses:
+- http://ubuntu1:8080 or http://ubuntu1:9090
+- http://10.0.0.10:8080 or http://10.0.0.10:8080
+
+![Image Of Zeppelin](./figures/zeppelin.png)
+
+Steps to import an existing Notebook:
+- Click on **Import Note** in the main screen (you can always get to page click in the Zeppelin Logo, top left corner).
+
+![Image Of Zeppelin Import](./figures/zeppelinimport.png)
+
+- Select JSON and select the file that you want to upload. There are two Notebooks included in this repo:
+  + *Zeppelin - Spark - Scala - Introduction*. This Notebook has been created following Advanced Spark Analytics Book, within its introduction to Scala language.
+  + *Zeppelin Intro Scala*. This Notebook has been extracted from Hortonworks Zeppelin Notebook, as an example of the features that can be provided with this environment.
+
+Steps to change Spark launching mode depending on the configuration that you have selected:
+- Click on **anonymous** and select ***Interpreter***.
+- Type in the search textbox *spark* or scroll down until you arrive to the following screen:
+![Image Of Zeppelin Interpreters](./figures/zeppelininterpreters.png)
+- Click on *edit* and change **master** to your selection:
+  + Local mode: local[*] *(Defaul)*
+  + Standalone mode: spark://ubuntu1.tallerhadoop1.org:7077
+  + Yarn mode: yarn-client
+- Save the changes (this will reload the interpreter)
+
+If you need more information about Zeppelin Notebook, you can visit the following link: https://zeppelin.apache.org/docs/0.6.2/
