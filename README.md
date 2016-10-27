@@ -267,7 +267,7 @@ Steps to change Spark launching mode depending on the configuration that you hav
 - Type in the search textbox *spark* or scroll down until you arrive to the following screen:
 ![Image Of Zeppelin Interpreters](./figures/zeppelininterpreters.png)
 - Click on *edit* and change **master** to your selection:
-  + Local mode: *local[\*]* *(Defaul)*
+  + Local mode: local\[\*\] (Defaul)
   + Standalone mode: *spark://ubuntu1.tallerhadoop1.org:7077*
   + Yarn mode: *yarn-client*
 - Save the changes (this will reload the interpreter)
