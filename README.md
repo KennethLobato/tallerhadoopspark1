@@ -1,7 +1,7 @@
 # tallerhadoopspark1
 ***
 
-1. [Preparing the environment](#Preparing)
+1. [Preparing the environment](#preparing)
 ---
 Download the code from this repository:
 ```Bash
