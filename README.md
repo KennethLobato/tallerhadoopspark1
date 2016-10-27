@@ -1,11 +1,14 @@
 # tallerhadoopspark1
 ***
 
+1. [Preparing the environment](#Preparing the environment)
+---
 Download the code from this repository:
 ```Bash
 git clone https://github.com/KennethLobato/tallerhadoopspark1.git
 ```
 
+## Preparing the environment
 Launch vagrant:
 ```Bash
 vagrant up
